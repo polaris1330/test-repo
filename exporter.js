@@ -75,19 +75,40 @@ function updateGridSize() {
 }
 function importGridState() {
     const stateStringInput = document.getElementById("state-string-input");
-    if (stateStringInput.value.length != numRows * numCols) {
-        console.log(`[ERROR]: Input state string has incorrect length (expected: ${numRows * numCols}, got: ${stateStringInput.value.length}).`);
-        return;
-    }
+    // if (stateStringInput.value.length != numRows * numCols) {
+    //     console.log(`[ERROR]: Input state string has incorrect length (expected: ${numRows * numCols}, got: ${stateStringInput.value.length}).`)
+    //     return;
+    // }
+    const stateStr = stateStringInput.value;
+    const temp = [[]];
     let l = 0;
-    for (let i = 0; i < numRows; i++) {
-        for (let j = 0; j < numCols; j++) {
-            let t = grid[i][j];
-            t.type = parseInt(stateStringInput.value[l]);
+    let cr = 0;
+    let cc = 0;
+    while (l < stateStr.length) {
+        const currChar = stateStr.charCodeAt(l);
+        if (currChar >= 48 && currChar <= 57) {
+            let t = JSON.parse(JSON.stringify(grid[cr][cc]));
+            t.type = currChar - 48;
             t.color = getColorFromType(t.type);
+            temp[cr].push(t);
+            cc++;
+            if (cc == numCols) {
+                temp.push([]);
+                cc = 0;
+                cr++;
+            }
             l++;
         }
+        // '\n' is ASCII code 10, '\r' is ASCII code 13
+        else if (currChar == 10 || currChar == 13) {
+            l++;
+        }
+        else {
+            console.log(`[ERROR]: Invalid character in input state string has incorrect length (expected a number between 0-9, got '${stateStr[l]}').`);
+            return;
+        }
     }
+    grid = temp;
     drawGrid();
 }
 function exportGridState() {
@@ -100,6 +121,7 @@ function encodeGrid() {
         for (let j = 0; j < numCols; j++) {
             output += grid[i][j].type;
         }
+        output += "\n";
     }
     return output;
 }
