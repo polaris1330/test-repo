@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>enclose.horse Puzzle Data Exporter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div>
+        <div">
+            <canvas id="exporter-canvas" style="background: #eeeeee;"></canvas>
+    </div>
+    <div>
+        <div>
+            <label for="grid-width">Width</label>
+            <input type="number" min=1 max=30 value="20" id="grid-width">
+            <label for="grid-height">Height</label>
+            <input type="number" min=1 max=30 value="10" id="grid-height">
+        </div>
+        <button type="button" id="update-grid-size-btn">Update grid size</button>
+        <button type="button" id="clear-grid-btn">Clear grid</button>
+        <div>
+            <label for="state-string-input">Input state string</label>
+            <input type="text" size="100" id="state-string-input">
+        </div>
+        <button type="button" id="import-btn">Import</button>
+        <div>
+            <label for="state-string-output">Output state string</label>
+            <input type="text" readonly="true" size="100" id="state-string-output">
+        </div>
+        <button type="button" id="export-btn">Export</button>
+    </div>
+    </div>
+
+    <script type="module" src="exporter.js"></script>
+</body>
+
+</html>
